@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
-   <h1>Homepage</h1>
-      <v-content class="my-5">
+  <div class="adres">
+    <h1 class='subheading grey--text'>Tu są adresy</h1>
+     <v-content class="my-5">
         content
      </v-content>
   </div>
