@@ -1,6 +1,6 @@
 <template lang="">
     <nav>
-        <v-app-bar flat>
+        <v-app-bar flat class='blue darken-1'>
             <v-app-bar-nav-icon 
             class="grey--text"
             @click="drawer =!drawer">
@@ -46,6 +46,7 @@ export default {
                 { icon: 'mdi-view-dashboard', text: 'Parki rozrywki', route: '/' },
                 { icon: 'mdi-view-dashboard', text: 'Adresy', route: '/adres' },
                 { icon: 'mdi-view-dashboard', text: 'Języki', route: '/jezyki' },
+                { icon: 'mdi-view-dashboard', text: 'Sektor', route: '/sektor' },
                 // do dodania na każdy widok co będziemy robić 
             ]
         }

@@ -26,4 +26,5 @@ class Rest extends Http {
   }
 }
 
+
 export default Rest;

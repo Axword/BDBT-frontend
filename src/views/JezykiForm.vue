@@ -30,7 +30,7 @@
                   color="primary"
                   title="Zapisz"
                   :disabled="!form.valid"
-                  @click="createJezyk(jezykId, false)"
+                  @click="createItem(jezykId, false)"
                 >
                   Zapisz
                 </v-btn>
@@ -71,13 +71,15 @@ export default {
     back() {
       router.push({ name: 'JezykiList' });
     },
-    async createJezyk(redirect=false) {
+    async createItem(redirect=false) {
       let success = await this.createJezyk();
+      console.log(success)
       if (success) {
         if (redirect) {
           router.push({ name: 'JezykiList' }).catch(() => {});
         } else {
-          router.push({ name: 'JezykiForm', params: { id: this.court.id } }).catch(() => {});
+          console.log("ELO")
+          router.push({ name: 'JezykiForm', params: { id: this.jezyk.id } }).catch(() => {});
         }
       }
     },

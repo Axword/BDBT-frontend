@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Jezyki from '../views/Jezyki.vue'
 import JezykiForm from '../views/JezykiForm.vue'
+import SektorTable from  '../views/SektorTable.vue'
+import SektorForm from '../views/SektorForm.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -10,6 +12,16 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/sektor',
+    name: 'SektorTable',
+    component: SektorTable
+  },
+  {
+    path: '/sektor/:id?',
+    name: 'SektorForm',
+    component: SektorForm
   },
   {
     path: '/jezyki',

@@ -15,7 +15,8 @@ const state = {
     },
     {
       text: 'Nazwa',
-      value: 'nazwa'
+      value: 'nazwa',
+      sortable: true
     },
     {
       text: 'Akcje',
@@ -60,6 +61,7 @@ const mutations = {
     state.errors = { ...payload };
   },
   setJezykItemsPerPage(state, value) {
+    console.log(value)
     state.itemsPerPage = value;
   },
   setJezykDetailsProp(state, { prop, value }) {
@@ -97,8 +99,10 @@ const actions = {
       context.commit('setJezykDetails', jezyk);
       context.commit('setJezykErrors', {});
       context.commit('showMessage', { message: success_message });
+      return true
     } catch (error) {
       context.commit('setJezykErrors', error);
+      return false
     }
   },
   async deleteJezyk(context, payload) {

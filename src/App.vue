@@ -5,7 +5,7 @@
       v-model="snackbar"
       :color="snackbarColor">{{ snackbarMessage }}
     </v-snackbar>
-      <v-main>
+      <v-main class='lime lighten-5' >
           <Navbar />
         
         <router-view class='mx-8 mb-8'></router-view>
