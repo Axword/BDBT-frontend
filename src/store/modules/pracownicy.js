@@ -124,9 +124,10 @@ const actions = {
       context.commit('setPracownicyDetails', item);
       context.commit('setPracownicyErrors', {});
       context.commit('showMessage', { message: success_message });
+      return true;
     } catch (error) {
       context.commit('setPracownicyErrors', error);
-      console.log(error)
+      return false;
     }
   },
   async deletePracownicy(context, payload) {

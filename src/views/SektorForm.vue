@@ -1,6 +1,6 @@
 <template>
   <div class="sektor">
-    <v-main class="elevation-1 mt-4">
+    <v-main class="elevation-3 mt-4 px-5 py-3">
      <h2>Widok sektoru</h2>
       <v-row justify-center>
         <v-col>
@@ -63,11 +63,10 @@
               maxlength="25"
             >
             </v-text-field>  
-            <v-spacer></v-spacer>
             <v-row>
               <v-col cols="12">
                 <v-btn
-                  class="mr-2 my-1"
+                  class="mr-2 my-3"
                   color="primary"
                   title="Zapisz"
                   :disabled="!form.valid"
@@ -76,7 +75,7 @@
                   Zapisz
                 </v-btn>
                 <v-btn
-                  class="mr-2 my-1"
+                  class="mr-2 my-3"
                   title="Wróć"
                   @click="back()"
                 >
@@ -87,22 +86,16 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-main class="px-0" >
-        <v-row class="elevation-1" v-if="!! this.$route.params.id">
-            <v-col>
-                <v-tabs>
-                    <v-tab>
-                    Atrakcje
-                    </v-tab>
-                    <v-tab-item>
-                        <sektor-atrakcje-list
-                            :sektorId="$route.params.id">
-                        </sektor-atrakcje-list>
-                    </v-tab-item>
-                </v-tabs>
-            </v-col>
-        </v-row>
-      </v-main>
+        <v-tabs v-if="!! this.$route.params.id">
+            <v-tab>
+            Atrakcje
+            </v-tab>
+            <v-tab-item>
+                <sektor-atrakcje-list
+                    :sektorId="$route.params.id">
+                </sektor-atrakcje-list>
+            </v-tab-item>
+        </v-tabs>
     </v-main>
   </div>
 </template>

@@ -98,10 +98,10 @@ const actions = {
       context.commit('setSektorDetails', await new Sektor(context.state.sektorDetails).save());
       context.commit('setSektorErrors', {});
       context.commit('showMessage', { message: success_message });
-      return true
+      return true;
     } catch (error) {
       context.commit('setSektorErrors', error);
-      console.log(error)
+      return false;
     }
   },
   async deleteSektor(context, payload) {

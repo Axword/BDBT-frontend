@@ -1,4 +1,6 @@
-<template lang="">
+<template
+    min-height:500
+     lang="">
     <nav>
         <v-app-bar
             src='/amusment.jpg'
@@ -55,12 +57,13 @@ export default {
         return {
             drawer: false,
             links: [
-                { icon: 'mdi-view-dashboard', text: 'Parki rozrywki', route: '/' },
+                { icon: 'mdi-view-dashboard', text: 'Strona główna', route: '/' },
                 { icon: 'mdi-view-dashboard', text: 'Stanowiska', route: '/stanowiska' },
                 { icon: 'mdi-view-dashboard', text: 'Języki', route: '/jezyki' },
                 { icon: 'mdi-view-dashboard', text: 'Sektor', route: '/sektor' },
                 { icon: 'mdi-view-dashboard', text: 'Pracownicy', route: '/pracownicy' },
                 { icon: 'mdi-view-dashboard', text: 'Wynagrodzenia', route: '/sekretarka' },
+                { icon: 'mdi-view-dashboard', text: 'Atrakcje', route: '/atrakcje' },
                 // do dodania na każdy widok co będziemy robić 
             ]
         }

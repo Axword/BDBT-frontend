@@ -81,6 +81,7 @@ const actions = {
       context.commit('setWynagrodzenia', await Wynagrodzenia.list(params));
       return true;
     } catch (error) {
+      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie odświeżaniu"});
       return false;
     }
   },
@@ -106,6 +107,7 @@ const actions = {
       return true
     } catch (error) {
       context.commit('setWynagrodzeniaErrors', error);
+      context.commit('showMessage', { message: "Wystąpił błąd przy tworzeniu"});
       return false
     }
   },
@@ -114,7 +116,15 @@ const actions = {
       await new Wynagrodzenia(payload).remove();
       return true;
     } catch (error) {
+     context.commit('showMessage', { message: "Wystąpił błąd przy usuwaniu"});
       return false;
+    }
+  },
+  async updateStatus(context, payload) {
+    try {
+      await new Wynagrodzenia(payload).save();
+    } catch(error) {
+      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie statusu"});
     }
   },
 };

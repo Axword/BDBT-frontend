@@ -1,5 +1,4 @@
 <template>
-  <v-container fluid>
     <v-data-table
       :headers="headers"
       :items="items"
@@ -44,9 +43,6 @@
       </template>
 
     </v-data-table>
-
-    <div class="v-spacer"></div>
-  </v-container>
 </template>
 
 <script>
@@ -99,37 +95,6 @@ export default {
       },
       loading: false,
     };
-  },
-  methods: {
-    toggleExpand: function(item) {
-      if (this.expandable === false) return;
-
-      let idx = this.expandedRowsIds.indexOf(item._id);
-      if (idx === -1) {
-        this.expandedRows.push(item);
-        this.expandedRowsIds.push(item._id);
-      } else {
-        this.expandedRows.splice(idx, 1);
-        this.expandedRowsIds.splice(idx, 1);
-      }
-    },
-    applyFilters: function(newOptions) {
-      this.options.filterOptions = newOptions;
-      this.options.page = 1;
-      this.filter();
-    },
-    filter: function() {
-      this.loading = true;
-      this.fetchObjects({
-        ...this.fetchObjectParams,
-        ...this.fetchParams,
-      })
-        .then(() => this.loading = false);
-    },
-    applySearch(options) {
-      this.options.filterOptions = { ...this.options.filterOptions, ...options };
-      this.filter();
-    }
   },
   computed: {
     itemsPerPage: {

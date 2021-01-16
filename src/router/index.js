@@ -10,6 +10,8 @@ import PracownicyForm from '../views/PracownicyForm.vue'
 import SecretaryTable from '../views/SecretaryTable.vue'
 import WynagrodzeniaForm from '../views/WynagrodzeniaForm.vue'
 import StanowiskoForm from '../views/StanowiskoForm.vue'
+import AtrakcjeForm from '../views/AtrakcjeForm.vue'
+import AtrakcjeTable from '../views/AtrakcjeTable.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,6 +44,16 @@ const routes = [
     path: '/sektor/:id?',
     name: 'SektorForm',
     component: SektorForm
+  },
+  {
+    path: '/atrakcje',
+    name: 'AtrakcjeTable',
+    component: AtrakcjeTable
+  },
+  {
+    path: '/atrakcje/:id',
+    name: 'AtrakcjeForm',
+    component: AtrakcjeForm
   },
   {
     path: '/sekretarka',

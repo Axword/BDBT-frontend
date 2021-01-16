@@ -1,6 +1,5 @@
 <template>
-  <v-app>
-    <v-main class="elevation-1 mt-4">
+   <v-main class="elevation-3 mt-4 px-5 py-3">
      <h2>Widok pracownicy</h2>
       <v-row justify-center>
         <v-col>
@@ -46,7 +45,7 @@
             <v-row>
               <v-col cols="12">
                 <v-btn
-                  class="mr-2 my-1"
+                  class="mr-2 my-3"
                   color="primary"
                   title="Zapisz"
                   :disabled="!form.valid"
@@ -55,7 +54,7 @@
                   Zapisz
                 </v-btn>
                 <v-btn
-                  class="mr-2 my-1"
+                  class="mr-2 my-3"
                   title="Wróć"
                   @click="back()"
                 >
@@ -66,8 +65,7 @@
           </v-form>
         </v-col>
       </v-row>
-    <v-main class="px-0">
-        <v-row class="elevation-1">
+        <v-row>
             <v-col>
                 <v-tabs
                     v-if="!! this.$route.params.id">
@@ -90,9 +88,7 @@
                 </v-tabs>
             </v-col>
         </v-row>
-      </v-main>
-   </v-main>
-  </v-app>
+      </v-main> 
 </template>
 
 <script>

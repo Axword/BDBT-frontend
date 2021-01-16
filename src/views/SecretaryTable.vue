@@ -1,11 +1,11 @@
 <template>
   <div class="wynagrodzenia">
-    <v-main fluid class="my-5">  
+     <v-main class="elevation-0 mt-4 px-5 py-3">
       <h1>Wynagrodzenia</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
-            class="mr-2"
+            class="mr-2 my-2"
             color="primary"
             :to="{ name: 'WynagrodzeniaForm' }"
           >
@@ -17,7 +17,7 @@
             @click="fetchZaplacone()"
 
           >
-            Pokaż Zapłacone
+            Zmień filtr statusu z "{{ status }}"
           </v-btn>
         </v-col>
       </v-row>
@@ -26,8 +26,10 @@
         :headers="headers"
         :items="items"
         :server-items-length="count"
+        :get-items-per-page="itemsPerPage"
+        :set-items-per-page="setWynagrodzeniaItemsPerPage"
         :fetch-objects="fetchWynagrodzeniaList"
-        :fetch-object-params=" { status: 'Niezapłacone' }"
+        :fetch-object-params=" { status: status }"
         locale="pl-PL"
         class="elevation-1"
       >
@@ -49,15 +51,15 @@
 <script>
 // @ is an alias to /src
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { paginationAdapter } from '@/store/utils';
 import TestTable from '@/components/TestTable'
 export default {
   name: 'SecretaryTable',
   components: { TestTable },
-    props: {
-  },
   data() {
-
     return {
+      options: {},
+      status: "Niezapłacone"
     };
   },
   methods: {
@@ -68,19 +70,23 @@ export default {
     ...mapActions([
       'fetchWynagrodzeniaList',
       'deleteWynagrodzenia',
-      'createWynagrodzenia  '
+      'updateStatus'
     ]),
     async fetchZaplacone(){
-      this.fetchWynagrodzeniaList()
+      if (this.status === "Niezapłacone") {
+        this.status = "Zapłacone";
+        return;
+      }
+      this.status = "Niezapłacone";
     },
     async statusItem(item) {
       if (item.status === "Zapłacone") {
         item.status = "Niezapłacone"
-        await this.createWynagrodzenia(item)
+        await this.updateStatus(item)
         return
       }
       item.status = "Zapłacone"
-      await this.createWynagrodzenia(item)
+      await this.updateStatus(item)
     } 
   },
   computed: {
@@ -88,13 +94,16 @@ export default {
       errors: 'getWynagrodzeniaErrors',
       count:'getWynagrodzeniaCount',
       headers:'getWynagrodzeniaListHeaders',
-      items: 'getWynagrodzenia'
+      items: 'getWynagrodzenia',
+      itemsPerPage: 'getWynagrodzeniaItemsPerPage'
     }),
   },
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchWynagrodzeniaList()
+  watch: {
+    status: {
+      handler(val) {
+         this.fetchWynagrodzeniaList(paginationAdapter(this.options, { status: val }))
+      }
+    }
   }
 };
 </script>

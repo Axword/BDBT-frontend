@@ -1,23 +1,11 @@
 <template>
   <div class="atrakcje">
-    <v-container fluid>  
-      <v-row justify-content='right'>
-        <v-col cols="12">
-          <v-btn
-            class="mr-2"
-            color="primary"
-            :to="{ name: 'AtrakcjeForm' }"
-          >
-            Dodaj
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-      <v-data-table
+      <TestTable 
         :headers="headers"
         :items="items"
         :server-items-length="count"
         :fetch-objects="fetchAtrakcjeList"
+        :fetch-object-params=" {id_sektora: sektorId}"
         locale="pl-PL"
         class="elevation-1"
       >
@@ -41,7 +29,7 @@
             </v-icon>
         </v-btn>
         </template>
-      </v-data-table>
+      </TestTable>
   </div>
 </template>
 
@@ -49,8 +37,10 @@
 // @ is an alias to /src
 import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import TestTable from '@/components/TestTable';
 export default {
   name: 'SektorAtrakcjeList',
+    components: { TestTable },
     props: {
     sektorId: {
       type: [ String, Number ],
@@ -58,7 +48,6 @@ export default {
     }
   },
   data() {
-
     return {
     };
   },
@@ -85,14 +74,9 @@ export default {
     ...mapGetters({
       errors: 'getAtrakcjeErrors',
       count:'getAtrakcjeCount',
+      items: 'getAtrakcje',
       headers:'getAtrakcjeListHeaders',
-      items: 'getAtrakcje'
     }),
   },
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchAtrakcjeList()
-  }
 };
 </script>

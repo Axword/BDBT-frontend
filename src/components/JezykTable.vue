@@ -11,26 +11,6 @@
         locale="pl-PL"
         class="elevation-1"
       >
-      <template v-slot:item.actions="{ item }">
-        <v-btn
-          icon
-          title="Edytuj język"
-          @click="editItem(item)"
-        >
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          title="Usuń język"
-          @click="deleteItem(item)"
-        >
-          <v-icon>
-            mdi-delete
-          </v-icon>
-        </v-btn>
-      </template>
       </TestTable>
   </div>
 </template>
@@ -51,7 +31,20 @@ export default {
   },
   data() {
     return {
-      options: {}  
+    headers: [
+    {
+      text: 'Kod języka',
+      value: 'kod_jezyka',
+    },
+    {
+      text: 'Nazwa',
+      value: 'nazwa',
+      sortable: true
+    },
+    {
+      text: 'Kod poziomu',
+      value: 'kod_poziomu',
+    }]
     };
   },
   methods: {
@@ -79,7 +72,6 @@ export default {
     ...mapGetters({
       errors: 'getJezykErrors',
       count:'getJezykCount',
-      headers:'getJezykListHeaders',
       items: 'getJezyk',
       itemsPerPage: 'getJezykItemsPerPage'
     }),

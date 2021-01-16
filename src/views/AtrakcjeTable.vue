@@ -1,14 +1,13 @@
 <template>
-  <div class="jezyki">
-
-     <v-main class="my-5">
-      <h1>Tu są języki</h1>
+  <div class="atrakcje">
+     <v-main class="elevation-0 mt-4 px-5 py-3">
+      <h1>Tu są Atrakcje</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'JezykiForm' }"
+            :to="{ name: 'AtrakcjeForm' }"
           >
             Dodaj
           </v-btn>
@@ -19,15 +18,15 @@
         :items="items"
         :items-count="count"
         :get-items-per-page="itemsPerPage"
-        :set-items-per-page="setJezykItemsPerPage"
-        :fetch-objects="fetchJezykList"
+        :set-items-per-page="setAtrakcjeItemsPerPage"
+        :fetch-objects="fetchAtrakcjeList"
         locale="pl-PL"
         class="elevation-1"
       >
       <template v-slot:item.actions="{ item }">
         <v-btn
           icon
-          title="Edytuj język"
+          title="Edytuj pracownik"
           @click="editItem(item)"
         >
           <v-icon>
@@ -36,7 +35,7 @@
         </v-btn>
         <v-btn
           icon
-          title="Usuń język"
+          title="Usuń pracownik"
           @click="deleteItem(item)"
         >
           <v-icon>
@@ -56,7 +55,7 @@ import TestTable from '@/components/TestTable'
 import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
-  name: 'JezykList',
+  name: 'AtrakcjeTable',
   components: { TestTable },
   data() {
     return {
@@ -65,32 +64,32 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setJezykItemsPerPage',
+      'setAtrakcjeItemsPerPage',
       'showMessage'
     ]),
     ...mapActions([
-      'fetchJezykList',
-      'deleteJezyk',
+      'fetchAtrakcjeList',
+      'deleteAtrakcje',
     ]),
     editItem(item) {
-      router.push({ name: 'JezykiForm', params: { id: item.id } });
+      router.push({ name: 'AtrakcjeForm', params: { id: item.id } });
     },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć język?')
+      let confirmation = confirm('Czy na pewno chcesz usunąć atrakcje?')
       if (confirmation) {
-        await this.deleteJezyk(item);
-        this.fetchJezykList()
-        this.showMessage({ message: 'Usunięto język' });
+        await this.deleteAtrakcje(item);
+        this.fetchAtrakcjeList()
+        this.showMessage({ message: 'Usunięto pracownik' });
       }
     }
   },
   computed: {
     ...mapGetters({
-      errors: 'getJezykErrors',
-      count:'getJezykCount',
-      headers:'getJezykListHeaders',
-      items: 'getJezyk',
-      itemsPerPage: 'getJezykItemsPerPage'
+      errors: 'getAtrakcjeErrors',
+      count:'getAtrakcjeCount',
+      headers:'getAtrakcjeListHeaders',
+      items: 'getAtrakcje',
+      itemsPerPage: 'getAtrakcjeItemsPerPage'
     }),
   },
 };

@@ -9,26 +9,6 @@
         locale="pl-PL"
         class="elevation-1"
       >
-        <template v-slot:item.actions="{ item }">
-        <v-btn
-            icon
-            title="Edytuj język"
-            @click="editItem(item)"
-        >
-            <v-icon>
-            mdi-pencil
-            </v-icon>
-        </v-btn>
-        <v-btn
-            icon
-            title="Usuń język"
-            @click="deleteItem(item)"
-        >
-            <v-icon>
-            mdi-delete
-            </v-icon>
-        </v-btn>
-        </template>
       </TestTable>
   </div>
 </template>
@@ -37,7 +17,7 @@
 // @ is an alias to /src
 import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import TestTable from '@/components/TestTable'
+import TestTable from '@/components/TestTable';
 export default {
   name: 'WynagrodzeniaList',
   components: { TestTable },
@@ -50,6 +30,23 @@ export default {
   data() {
 
     return {
+    headers: [
+    {
+      text: 'Data wynagrodzenia',
+      value: 'data_wynagrodzenia'
+    },
+    {
+      text: 'Kwota podstawowa',
+      value: 'kwota_podstawowa'
+    },
+    {
+      text: 'Kwota dodatkowa',
+      value: 'kwota_dodatkowa'
+    },
+    {
+        text: 'Status',
+        value: 'status'
+    }]
     };
   },
   methods: {
@@ -75,14 +72,8 @@ export default {
     ...mapGetters({
       errors: 'getWynagrodzeniaErrors',
       count:'getWynagrodzeniaCount',
-      headers:'getWynagrodzeniaListHeaders',
       items: 'getWynagrodzenia'
     }),
   },
-  created () {
-    // fetch the data when the view is created and the data is
-    // already being observed
-    this.fetchWynagrodzeniaList()
-  }
 };
 </script>

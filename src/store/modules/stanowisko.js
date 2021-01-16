@@ -104,9 +104,10 @@ const actions = {
       context.commit('setStanowiskoDetails', item);
       context.commit('setStanowiskoErrors', {});
       context.commit('showMessage', { message: success_message });
+      return true
     } catch (error) {
       context.commit('setStanowiskoErrors', error);
-      console.log(error)
+      return false;
     }
   },
   async deleteStanowisko(context, payload) {

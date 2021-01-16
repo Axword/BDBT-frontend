@@ -5,7 +5,7 @@
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
-            class="mr-2"
+            class="mr-2 my-4"
             color="primary"
             :to="{ name: 'PracownicyForm' }"
           >

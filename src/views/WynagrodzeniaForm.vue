@@ -1,7 +1,6 @@
 <template>
- <div>
-  <v-app>
-    <v-main class="elevation-1 mt-4">
+ <div class="wynagrodzenie">
+   <v-main class="elevation-3 mt-4 px-5 py-3">
     <h1>Wynagrodzenia</h1>
       <v-row justify-center>
         <v-col>
@@ -49,7 +48,6 @@
         </v-col>
       </v-row>
     </v-main>
-  </v-app>
  </div>
 </template>
 <script>

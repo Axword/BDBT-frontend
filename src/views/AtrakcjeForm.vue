@@ -1,21 +1,21 @@
 <template>
-  <div class="jezyk">
+  <div class="atrakcje">
     <v-main class="elevation-3 mt-4 px-5 py-3">
-     <h1>Język</h1>
+     <h1>Atrakcje</h1>
       <v-row justify-center>
         <v-col>
           <v-form v-model="form.valid">
             <v-text-field
-              v-model="jezyk.kod_jezyka"
+              v-model="atrakcje.kod_atrakcjea"
               name='kod'
               label="Kod"
               type="text"
-              :error-messages="errors.kod_jezyka"
+              :error-messages="errors.kod_atrakcjea"
               maxlength="3"
             >
             </v-text-field>
             <v-text-field
-              v-model="jezyk.nazwa"
+              v-model="atrakcje.nazwa"
               name="nazwa"
               label="Nazwa"
               type="text"
@@ -24,7 +24,7 @@
             >
             </v-text-field>
               <v-select
-              v-model="jezyk.kod_poziomu"
+              v-model="atrakcje.kod_poziomu"
               name='kod poziomu'
               label="Kod poziomu"
               type="text"
@@ -33,7 +33,7 @@
             >
             </v-select>
             <v-text-field
-              v-model="jezyk.opis"
+              v-model="atrakcje.opis"
               name="nazwa"
               label="Nazwa"
               type="text"
@@ -45,7 +45,7 @@
               label="Pracownik"
               :item-text="item => item.imie +  '  ' + item.nazwisko"
               item-value="id"
-              v-model="jezyk.id_pracownika"
+              v-model="atrakcje.id_pracownika"
               :items="pracownicyChoices"
               :rules="[rules.required]"
               :error-messages="errors.id_pracownika"
@@ -58,7 +58,7 @@
                   color="primary"
                   title="Zapisz"
                   :disabled="!form.valid"
-                  @click="createItem(jezykId, false)"
+                  @click="createItem(atrakcjeId, false)"
                 >
                   Zapisz
                 </v-btn>
@@ -83,10 +83,10 @@ import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { objectHandler } from '@/store/utils';
 export default {
-  name: 'JezykiForm',
+  name: 'AtrakcjeForm',
   data() {
     return {
-      jezykHandler: {},
+      atrakcjeHandler: {},
       kod_poziomu: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
       form: {
         valid: true
@@ -98,42 +98,42 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'JezykiList' });
+      router.push({ name: 'AtrakcjeTable' });
     },
-    async createItem(jezykId) {
-      let success = await this.createJezyk(jezykId);
+    async createItem(atrakcjeId) {
+      let success = await this.createAtrakcje(atrakcjeId);
       if (success) {
-        router.push({ name: 'JezykiList' }).catch(() => {});
+        router.push({ name: 'AtrakcjeTable' }).catch(() => {});
       }
     },
     ...mapGetters([
-      'getJezykDetails',
+      'getAtrakcjeDetails',
     ]),
     ...mapMutations([
-      'setJezykDetails',
-      'setJezykDetailsProp'
+      'setAtrakcjeDetails',
+      'setAtrakcjeDetailsProp'
     ]),
     ...mapActions([
-      'fetchJezykDetails',
-      'createJezyk',
+      'fetchAtrakcjeDetails',
+      'createAtrakcje',
       'fetchPracownicyChoices'
     ]),
   },
   computed: {
     ...mapGetters({
-      errors: 'getJezykErrors',
+      errors: 'getAtrakcjeErrors',
       pracownicyChoices: 'getPracownicyChoices'
     }),
-    jezykId() {
+    atrakcjeId() {
       return this.$route.params.id;
     },
-    jezyk() {
-      return new Proxy(this.getJezykDetails(), this.jezykHandler);
+    atrakcje() {
+      return new Proxy(this.getAtrakcjeDetails(), this.atrakcjeHandler);
     },
   },
   created() {
-    this.jezykHandler = objectHandler(this.setJezykDetailsProp);
-    this.fetchJezykDetails(this.jezykId);
+    this.atrakcjeHandler = objectHandler(this.setAtrakcjeDetailsProp);
+    this.fetchAtrakcjeDetails(this.atrakcjeId);
     this.fetchPracownicyChoices({ ordering: 'imie' });
   }
 };
