@@ -1,9 +1,9 @@
 <template>
   <div class="home">
    <h1>Homepage</h1>
-      <v-content class="my-5">
+      <v-main class="my-5">
         content
-     </v-content>
+     </v-main>
   </div>
 </template>
 

@@ -1,12 +1,20 @@
 <template lang="">
     <nav>
-        <v-app-bar flat class='blue darken-1'>
+        <v-app-bar
+            src='/amusment.jpg'
+        >
+      <template v-slot:img="{ props }">
+            <v-img
+            v-bind="props"
+            gradient="to top right, rgba(19,84,122,0.8), rgba(128,208,199,.8)"
+            ></v-img>
+      </template>
             <v-app-bar-nav-icon 
-            class="grey--text"
+            color="white"
             @click="drawer =!drawer">
             </v-app-bar-nav-icon>
             <v-app-bar-title class="text-uppercase">
-                <span class="font-weight-bold">Park Rozrywki</span>
+                <span class="font-weight-light white--text">Park Rozrywki</span>
             </v-app-bar-title>
             <v-spacer></v-spacer>
             <v-btn color="red">
@@ -14,7 +22,11 @@
                 <v-icon right>mdi-exit-to-app</v-icon>
             </v-btn>
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer" app class="pink">
+        <v-navigation-drawer 
+        v-model="drawer"
+        app
+        temporary 
+         class="pink">
             <v-row column justify='center'>
                 <v-col class='mt-5' cols='6'>
                    <v-avatar size='100'>
@@ -44,9 +56,11 @@ export default {
             drawer: false,
             links: [
                 { icon: 'mdi-view-dashboard', text: 'Parki rozrywki', route: '/' },
-                { icon: 'mdi-view-dashboard', text: 'Adresy', route: '/adres' },
+                { icon: 'mdi-view-dashboard', text: 'Stanowiska', route: '/stanowiska' },
                 { icon: 'mdi-view-dashboard', text: 'Języki', route: '/jezyki' },
                 { icon: 'mdi-view-dashboard', text: 'Sektor', route: '/sektor' },
+                { icon: 'mdi-view-dashboard', text: 'Pracownicy', route: '/pracownicy' },
+                { icon: 'mdi-view-dashboard', text: 'Wynagrodzenia', route: '/sekretarka' },
                 // do dodania na każdy widok co będziemy robić 
             ]
         }

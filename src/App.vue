@@ -5,17 +5,18 @@
       v-model="snackbar"
       :color="snackbarColor">{{ snackbarMessage }}
     </v-snackbar>
-      <v-main class='lime lighten-5' >
+      <v-main>
           <Navbar />
-        
         <router-view class='mx-8 mb-8'></router-view>
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 import { mapGetters, mapMutations } from 'vuex';
 
@@ -23,7 +24,8 @@ import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
 
   data() {

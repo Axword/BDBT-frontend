@@ -52,7 +52,6 @@
 
 <script>
 // @ is an alias to /src
-import { paginationAdapter } from '@/store/utils';
 import TestTable from '@/components/TestTable'
 import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
@@ -94,8 +93,5 @@ export default {
       itemsPerPage: 'getJezykItemsPerPage'
     }),
   },
-  created(){
-    this.fetchJezykList(paginationAdapter(this.options))
-  }
 };
 </script>

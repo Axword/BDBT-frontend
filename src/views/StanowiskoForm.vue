@@ -1,55 +1,28 @@
 <template>
-  <div class="jezyk">
+  <div class="stanowisko">
   <v-app>
     <v-container class="elevation-1">
       <v-row justify-center>
         <v-col>
           <v-form v-model="form.valid">
             <v-text-field
-              v-model="jezyk.kod_jezyka"
-              name='kod'
-              label="Kod"
-              type="text"
-              :error-messages="errors.kod_jezyka"
-              maxlength="3"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model="jezyk.nazwa"
+              v-model="stanowisko.nazwa"
               name="nazwa"
               label="Nazwa"
               type="text"
               :error-messages="errors.nazwa"
-              maxlength="25"
+              maxlength="100"
             >
             </v-text-field>
-              <v-select
-              v-model="jezyk.kod_poziomu"
-              name='kod poziomu'
-              label="Kod poziomu"
-              type="text"
-              :error-messages="errors.kod_poziomu"
-              :items="kod_poziomu"
-            >
-            </v-select>
             <v-text-field
-              v-model="jezyk.opis"
-              name="nazwa"
-              label="Nazwa"
+              v-model="stanowisko.opis"
+              name='opis'
+              label="Opis"
               type="text"
               :error-messages="errors.opis"
-              maxlength="25"
+              maxlength="400"
             >
             </v-text-field>
-            <v-autocomplete
-              label="Pracownik"
-              :item-text="item => item.imie +  '  ' + item.nazwisko"
-              item-value="id"
-              v-model="jezyk.id_pracownika"
-              :items="pracownicyChoices"
-              :rules="[rules.required]"
-              :error-messages="errors.id_pracownika"
-            ></v-autocomplete>
             <v-spacer></v-spacer>
             <v-row>
               <v-col cols="12">
@@ -58,7 +31,7 @@
                   color="primary"
                   title="Zapisz"
                   :disabled="!form.valid"
-                  @click="createItem(jezykId, false)"
+                  @click="createItem(stanowiskoId, false)"
                 >
                   Zapisz
                 </v-btn>
@@ -84,11 +57,10 @@ import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { objectHandler } from '@/store/utils';
 export default {
-  name: 'JezykiForm',
+  name: 'StanowiskoForm',
   data() {
     return {
-      jezykHandler: {},
-      kod_poziomu: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+      stanowiskoHandler: {},
       form: {
         valid: true
       },
@@ -99,42 +71,42 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'JezykiList' });
+      router.push({ name: 'StanowiskoTable' });
     },
-    async createItem(jezykId) {
-      let success = await this.createJezyk(jezykId);
+    async createItem(stanowiskoId) {
+      let success = await this.createStanowisko(stanowiskoId);
       if (success) {
-        router.push({ name: 'JezykiList' }).catch(() => {});
+        router.push({ name: 'StanowiskoTable' }).catch(() => {});
       }
     },
     ...mapGetters([
-      'getJezykDetails',
+      'getStanowiskoDetails',
     ]),
     ...mapMutations([
-      'setJezykDetails',
-      'setJezykDetailsProp'
+      'setStanowiskoDetails',
+      'setStanowiskoDetailsProp'
     ]),
     ...mapActions([
-      'fetchJezykDetails',
-      'createJezyk',
+      'fetchStanowiskoDetails',
+      'createStanowisko',
       'fetchPracownicyChoices'
     ]),
   },
   computed: {
     ...mapGetters({
-      errors: 'getJezykErrors',
+      errors: 'getStanowiskoErrors',
       pracownicyChoices: 'getPracownicyChoices'
     }),
-    jezykId() {
+    stanowiskoId() {
       return this.$route.params.id;
     },
-    jezyk() {
-      return new Proxy(this.getJezykDetails(), this.jezykHandler);
+    stanowisko() {
+      return new Proxy(this.getStanowiskoDetails(), this.stanowiskoHandler);
     },
   },
   created() {
-    this.jezykHandler = objectHandler(this.setJezykDetailsProp);
-    this.fetchJezykDetails(this.jezykId);
+    this.stanowiskoHandler = objectHandler(this.setStanowiskoDetailsProp);
+    this.fetchStanowiskoDetails(this.stanowiskoId);
     this.fetchPracownicyChoices({ ordering: 'imie' });
   }
 };

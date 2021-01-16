@@ -1,14 +1,14 @@
 <template>
-  <div class="sektor">
+  <div class="stanowisko">
 
      <v-main class="my-5">
-      <h1>Tu są sektory</h1>
+      <h1>Tu są stanowisko</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2"
             color="primary"
-            :to="{ name: 'SektorForm' }"
+            :to="{ name: 'StanowiskoForm' }"
           >
             Dodaj
           </v-btn>
@@ -19,24 +19,15 @@
         :items="items"
         :items-count="count"
         :get-items-per-page="itemsPerPage"
-        :set-items-per-page="setSektorItemsPerPage"
-        :fetch-objects="fetchSektorList"
+        :set-items-per-page="setStanowiskoItemsPerPage"
+        :fetch-objects="fetchStanowiskoList"
         locale="pl-PL"
         class="elevation-1"
       >
       <template v-slot:item.actions="{ item }">
         <v-btn
           icon
-          title="Edytuj sektor"
-          @click="editItem(item)"
-        >
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          title="Usuń sektor"
+          title="Usuń stanowisko"
           @click="deleteItem(item)"
         >
           <v-icon>
@@ -53,10 +44,9 @@
 <script>
 // @ is an alias to /src
 import TestTable from '@/components/TestTable'
-import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
-  name: 'SektorTable',
+  name: 'StanowiskoTable',
   components: { TestTable },
   data() {
     return {
@@ -65,32 +55,29 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setSektorItemsPerPage',
+      'setStanowiskoItemsPerPage',
       'showMessage'
     ]),
     ...mapActions([
-      'fetchSektorList',
-      'deleteSektor',
+      'fetchStanowiskoList',
+      'deleteStanowisko',
     ]),
-    editItem(item) {
-      router.push({ name: 'SektorForm', params: { id: item.id } });
-    },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć sektor?')
+      let confirmation = confirm('Czy na pewno chcesz usunąć stanowisko?')
       if (confirmation) {
-        await this.deleteSektor(item);
-        this.fetchSektorList()
-        this.showMessage({ message: 'Usunięto sektor' });
+        await this.deleteStanowisko(item);
+        this.fetchStanowiskoList()
+        this.showMessage({ message: 'Usunięto stanowisko' });
       }
     }
   },
   computed: {
     ...mapGetters({
-      errors: 'getSektorErrors',
-      count:'getSektorCount',
-      headers:'getSektorListHeaders',
-      items: 'getSektor',
-      itemsPerPage: 'getSektorItemsPerPage'
+      errors: 'getStanowiskoErrors',
+      count:'getStanowiskoCount',
+      headers:'getStanowiskoListHeaders',
+      items: 'getStanowisko',
+      itemsPerPage: 'getStanowiskoItemsPerPage'
     }),
   },
 };

@@ -1,33 +1,20 @@
 <template>
-  <div class="sektor">
-
-     <v-main class="my-5">
-      <h1>Tu są sektory</h1>
-      <v-row justify-content='right'>
-        <v-col cols="12">
-          <v-btn
-            class="mr-2"
-            color="primary"
-            :to="{ name: 'SektorForm' }"
-          >
-            Dodaj
-          </v-btn>
-        </v-col>
-      </v-row>
+  <div class="jezyki">
       <TestTable
         :headers="headers"
         :items="items"
         :items-count="count"
         :get-items-per-page="itemsPerPage"
-        :set-items-per-page="setSektorItemsPerPage"
-        :fetch-objects="fetchSektorList"
+        :set-items-per-page="setJezykItemsPerPage"
+        :fetch-object-params=" {id_pracownika: pracownikId}"
+        :fetch-objects="fetchJezykList"
         locale="pl-PL"
         class="elevation-1"
       >
       <template v-slot:item.actions="{ item }">
         <v-btn
           icon
-          title="Edytuj sektor"
+          title="Edytuj język"
           @click="editItem(item)"
         >
           <v-icon>
@@ -36,7 +23,7 @@
         </v-btn>
         <v-btn
           icon
-          title="Usuń sektor"
+          title="Usuń język"
           @click="deleteItem(item)"
         >
           <v-icon>
@@ -45,8 +32,6 @@
         </v-btn>
       </template>
       </TestTable>
-     </v-main>
-     
   </div>
 </template>
 
@@ -56,8 +41,14 @@ import TestTable from '@/components/TestTable'
 import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
-  name: 'SektorTable',
+  name: 'JezykList',
   components: { TestTable },
+  props: {
+    pracownikId: {
+      type: [ String, Number ],
+      required: true
+    }
+  },
   data() {
     return {
       options: {}  
@@ -65,32 +56,32 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setSektorItemsPerPage',
+      'setJezykItemsPerPage',
       'showMessage'
     ]),
     ...mapActions([
-      'fetchSektorList',
-      'deleteSektor',
+      'fetchJezykList',
+      'deleteJezyk',
     ]),
     editItem(item) {
-      router.push({ name: 'SektorForm', params: { id: item.id } });
+      router.push({ name: 'JezykiForm', params: { id: item.id } });
     },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć sektor?')
+      let confirmation = confirm('Czy na pewno chcesz usunąć język?')
       if (confirmation) {
-        await this.deleteSektor(item);
-        this.fetchSektorList()
-        this.showMessage({ message: 'Usunięto sektor' });
+        await this.deleteJezyk(item);
+        this.fetchJezykList()
+        this.showMessage({ message: 'Usunięto język' });
       }
     }
   },
   computed: {
     ...mapGetters({
-      errors: 'getSektorErrors',
-      count:'getSektorCount',
-      headers:'getSektorListHeaders',
-      items: 'getSektor',
-      itemsPerPage: 'getSektorItemsPerPage'
+      errors: 'getJezykErrors',
+      count:'getJezykCount',
+      headers:'getJezykListHeaders',
+      items: 'getJezyk',
+      itemsPerPage: 'getJezykItemsPerPage'
     }),
   },
 };

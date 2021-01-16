@@ -61,7 +61,6 @@ const mutations = {
     state.errors = { ...payload };
   },
   setJezykItemsPerPage(state, value) {
-    console.log(value)
     state.itemsPerPage = value;
   },
   setJezykDetailsProp(state, { prop, value }) {
@@ -94,7 +93,6 @@ const actions = {
   async createJezyk(context, jezykId) {
     const success_message = jezykId ? 'Język zistal zaktualizowanay.': 'Język został utworzony.';
     try {
-      console.log(context.state.jezykDetails)
       const jezyk = await new Jezyki(context.state.jezykDetails).save();
       context.commit('setJezykDetails', jezyk);
       context.commit('setJezykErrors', {});

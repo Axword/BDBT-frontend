@@ -93,11 +93,10 @@ const actions = {
     }
   },
   async createAtrakcje(context, atrakcjeId) {
-    const success_message = atrakcjeId ? 'Język został zaktualizowanay.': 'Język został utworzony.';
+    const success_message = atrakcjeId ? 'Atrakcje został zaktualizowanay.': 'Atrakcje został utworzony.';
     try {
-      console.log(context.state.atrakcjeDetails)
-      const Atrakcje = await new Atrakcje(context.state.atrakcjeDetails).save();
-      context.commit('setAtrakcjeDetails', Atrakcje);
+      const item = await new Atrakcje(context.state.atrakcjeDetails).save();
+      context.commit('setAtrakcjeDetails', item);
       context.commit('setAtrakcjeErrors', {});
       context.commit('showMessage', { message: success_message });
     } catch (error) {

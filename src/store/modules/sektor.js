@@ -93,17 +93,15 @@ const actions = {
     }
   },
   async createSektor(context, sektorId) {
-    const success_message = sektorId ? 'Język został zaktualizowanay.': 'Język został utworzony.';
+    const success_message = sektorId ? 'Sektor został zaktualizowanay.': 'Sektor został utworzony.';
     try {
-      console.log(context.state.sektorDetails)
-      const Sektor = await new Sektor(context.state.sektorDetails).save();
-      context.commit('setSektorDetails', Sektor);
+      context.commit('setSektorDetails', await new Sektor(context.state.sektorDetails).save());
       context.commit('setSektorErrors', {});
       context.commit('showMessage', { message: success_message });
       return true
     } catch (error) {
       context.commit('setSektorErrors', error);
-      return false
+      console.log(error)
     }
   },
   async deleteSektor(context, payload) {
