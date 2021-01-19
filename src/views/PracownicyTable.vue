@@ -1,13 +1,12 @@
 <template>
   <div class="pracownicy">
-     <v-main class="my-5">
-      <h1>Tu są pracowniki</h1>
+     <v-main class="elevation-0 mt-4 px-5 py-3">
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'PracownicyForm' }"
+            :to="{ name: 'Pracownicy' }"
           >
             Dodaj
           </v-btn>
@@ -26,7 +25,7 @@
       <template v-slot:item.actions="{ item }">
         <v-btn
           icon
-          title="Edytuj pracownik"
+          title="Edytuj pracownika"
           @click="editItem(item)"
         >
           <v-icon>
@@ -35,11 +34,11 @@
         </v-btn>
         <v-btn
           icon
-          title="Usuń pracownik"
+          title="Zwolnij pracownika"
           @click="deleteItem(item)"
         >
           <v-icon>
-            mdi-delete
+            mdi-account-cancel
           </v-icon>
         </v-btn>
       </template>
@@ -53,9 +52,10 @@
 // @ is an alias to /src
 import TestTable from '@/components/TestTable'
 import router from '@/router';
+import moment from 'moment';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
-  name: 'PracownicyTable',
+  name: 'ListaPracowników',
   components: { TestTable },
   data() {
     return {
@@ -69,17 +69,16 @@ export default {
     ]),
     ...mapActions([
       'fetchPracownicyList',
-      'deletePracownicy',
+      'updateStatusPracownicy',
     ]),
     editItem(item) {
-      router.push({ name: 'PracownicyForm', params: { id: item.id } });
+      router.push({ name: 'Pracownicy', params: { id: item.id } });
     },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć pracownik?')
+      let confirmation = confirm('Czy na pewno chcesz zwolnić pracownika?')
       if (confirmation) {
-        await this.deletePracownicy(item);
-        this.fetchPracownicyList()
-        this.showMessage({ message: 'Usunięto pracownik' });
+        item.data_zwolnienia = this.today
+        await this.updateStatusPracownicy(item)
       }
     }
   },
@@ -91,6 +90,9 @@ export default {
       items: 'getPracownicy',
       itemsPerPage: 'getPracownicyItemsPerPage'
     }),
+    today() {
+      return moment().format('YYYY-MM-DD');
+    },
   },
 };
 </script>

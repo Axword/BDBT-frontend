@@ -1,14 +1,12 @@
 <template>
   <div class="jezyki">
-
-     <v-main class="my-5">
-      <h1>Tu są języki</h1>
+     <v-main class="elevation-0 mt-4 px-5 py-3">
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'JezykiForm' }"
+            :to="{ name: 'Języki' }"
           >
             Dodaj
           </v-btn>
@@ -73,7 +71,7 @@ export default {
       'deleteJezyk',
     ]),
     editItem(item) {
-      router.push({ name: 'JezykiForm', params: { id: item.id } });
+      router.push({ name: 'Języki', params: { id: item.id } });
     },
     async deleteItem(item) {
       let confirmation = confirm('Czy na pewno chcesz usunąć język?')

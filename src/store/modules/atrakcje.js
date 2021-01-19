@@ -13,8 +13,12 @@ const state = {
       value: 'nazwa'
     },
     {
-      text: 'Data założenia',
-      value: 'data_zalozenia'
+      text: 'Producent',
+      value: 'producent'
+    },
+    {
+      text: 'Typ atrakcji',
+      value: 'typ_atrakcji'
     },
     {
       text: 'Status',
@@ -109,6 +113,14 @@ const actions = {
       return true;
     } catch (error) {
       return false;
+    }
+  },
+  async updateStatusAtrakcje(context, payload) {
+    try {
+      await new Atrakcje(payload).save();
+      context.commit('showMessage', { message: "Zaktualizowano status"});
+    } catch(error) {
+      return false
     }
   },
 };

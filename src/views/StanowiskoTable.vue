@@ -1,8 +1,6 @@
 <template>
   <div class="stanowisko">
-
      <v-main class="elevation-0 mt-4 px-5 py-3">
-      <h1>Tu są stanowisko</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn

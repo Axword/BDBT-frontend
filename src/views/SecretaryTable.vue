@@ -1,13 +1,12 @@
 <template>
   <div class="wynagrodzenia">
      <v-main class="elevation-0 mt-4 px-5 py-3">
-      <h1>Wynagrodzenia</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-2"
             color="primary"
-            :to="{ name: 'WynagrodzeniaForm' }"
+            :to="{ name: 'Wynagrodzenia' }"
           >
             Dodaj
           </v-btn>
@@ -31,20 +30,98 @@
         :fetch-objects="fetchWynagrodzeniaList"
         :fetch-object-params=" { status: status }"
         locale="pl-PL"
-        class="elevation-1"
       >
         <template v-slot:item.actions="{ item }">
-        <v-btn
-            icon
-            title="Zmień status"
-            @click="statusItem(item)"
-        >
+          <v-btn
+              icon
+              title="Zmień status"
+              @click="statusItem(item)"
+          >
+              <v-icon>
+                mdi-sync
+              </v-icon>
+          </v-btn>
+            <v-btn
+              icon
+              title="Sprawdź dane osobowe do przelewu"
+              @click="showDetails(item)"
+          >
             <v-icon>
-            mdi-delete
+              mdi-account-cash
             </v-icon>
-        </v-btn>
+          </v-btn>
         </template>
       </TestTable>
+      <template>
+      <v-row justify="center">
+        <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="600px"
+        >
+          <v-card>
+            <v-card-title>
+              <span class="headline">Dane osobowe</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6"
+                  >
+                    <v-text-field
+                      label="Imię"
+                      v-model='pracownik.imie'
+                      required
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6"
+                  >
+                    <v-text-field
+                      label="Nazwisko"
+                      v-model='pracownik.nazwisko'
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Numer telefonu"
+                      v-model='pracownik.nr_telefonu'
+                      required
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Numer konta"
+                      v-model='pracownik.nr_konta_bankowego'
+                      required
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="dialog = false"
+              >
+                Zamknij
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+   </template>
   </div>
 </template>
 
@@ -58,11 +135,16 @@ export default {
   components: { TestTable },
   data() {
     return {
+      pracownik: {},
+      dialog: false,
       options: {},
       status: "Niezapłacone"
     };
   },
   methods: {
+    ...mapGetters([
+      'getPracownicyDetails'
+      ]),
     ...mapMutations([
       'setWynagrodzeniaItemsPerPage',
       'showMessage'
@@ -70,7 +152,8 @@ export default {
     ...mapActions([
       'fetchWynagrodzeniaList',
       'deleteWynagrodzenia',
-      'updateStatus'
+      'updateStatus',
+      'fetchPracownicyDetails'
     ]),
     async fetchZaplacone(){
       if (this.status === "Niezapłacone") {
@@ -81,13 +164,18 @@ export default {
     },
     async statusItem(item) {
       if (item.status === "Zapłacone") {
-        item.status = "Niezapłacone"
-        await this.updateStatus(item)
-        return
+        item.status = "Niezapłacone";
+        await this.updateStatus(item);
+        return;
       }
       item.status = "Zapłacone"
-      await this.updateStatus(item)
-    } 
+      await this.updateStatus(item);
+    },
+    async showDetails(item) {
+      const pracownik = await this.fetchPracownicyDetails(item.id_pracownika);
+      this.pracownik = pracownik;
+      this.dialog=true;
+    }, 
   },
   computed: {
     ...mapGetters({
@@ -101,7 +189,7 @@ export default {
   watch: {
     status: {
       handler(val) {
-         this.fetchWynagrodzeniaList(paginationAdapter(this.options, { status: val }))
+         this.fetchWynagrodzeniaList(paginationAdapter(this.options, { status: val }));
       }
     }
   }

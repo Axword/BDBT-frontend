@@ -19,7 +19,7 @@
                 <span class="font-weight-light white--text">Park Rozrywki</span>
             </v-app-bar-title>
             <v-spacer></v-spacer>
-            <v-btn color="red">
+            <v-btn color="pink">
                 <span>Wyloguj się</span>
                 <v-icon right>mdi-exit-to-app</v-icon>
             </v-btn>
@@ -27,7 +27,6 @@
         <v-navigation-drawer 
         v-model="drawer"
         app
-        temporary 
          class="pink">
             <v-row column justify='center'>
                 <v-col class='mt-5' cols='6'>
@@ -57,13 +56,12 @@ export default {
         return {
             drawer: false,
             links: [
-                { icon: 'mdi-view-dashboard', text: 'Strona główna', route: '/' },
-                { icon: 'mdi-view-dashboard', text: 'Stanowiska', route: '/stanowiska' },
-                { icon: 'mdi-view-dashboard', text: 'Języki', route: '/jezyki' },
-                { icon: 'mdi-view-dashboard', text: 'Sektor', route: '/sektor' },
-                { icon: 'mdi-view-dashboard', text: 'Pracownicy', route: '/pracownicy' },
-                { icon: 'mdi-view-dashboard', text: 'Wynagrodzenia', route: '/sekretarka' },
-                { icon: 'mdi-view-dashboard', text: 'Atrakcje', route: '/atrakcje' },
+                { icon: 'mdi-card-account-details', text: 'Stanowiska', route: '/stanowiska' },
+                { icon: 'mdi-globe-model', text: 'Języki', route: '/jezyki' },
+                { icon: 'mdi-view-dashboard', text: 'Sektory', route: '/sektor' },
+                { icon: 'mdi-account-multiple', text: 'Pracownicy', route: '/pracownicy' },
+                { icon: 'mdi-account-cash', text: 'Wynagrodzenia', route: '/wynagrodzenia' },
+                { icon: 'mdi-ferris-wheel', text: 'Atrakcje', route: '/atrakcje' },
                 // do dodania na każdy widok co będziemy robić 
             ]
         }

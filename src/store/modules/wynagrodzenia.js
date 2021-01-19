@@ -81,7 +81,7 @@ const actions = {
       context.commit('setWynagrodzenia', await Wynagrodzenia.list(params));
       return true;
     } catch (error) {
-      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie odświeżaniu"});
+      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie odświeżaniu", color: 'error'});
       return false;
     }
   },
@@ -98,7 +98,7 @@ const actions = {
     }
   },
   async createWynagrodzenia(context, wynagrodzeniaId) {
-    const success_message = wynagrodzeniaId ? 'Wynagrodzenie został zaktualizowanay.': 'Wynagrodzenie został utworzony.';
+    const success_message = wynagrodzeniaId ? 'Wynagrodzenie zostało zaktualizowane.': 'Wynagrodzenie został utworzone.';
     try {
       const item = await new Wynagrodzenia(context.state.wynagrodzeniaDetails).save();
       context.commit('setWynagrodzeniaDetails', item);
@@ -107,7 +107,6 @@ const actions = {
       return true
     } catch (error) {
       context.commit('setWynagrodzeniaErrors', error);
-      context.commit('showMessage', { message: "Wystąpił błąd przy tworzeniu"});
       return false
     }
   },
@@ -116,15 +115,15 @@ const actions = {
       await new Wynagrodzenia(payload).remove();
       return true;
     } catch (error) {
-     context.commit('showMessage', { message: "Wystąpił błąd przy usuwaniu"});
       return false;
     }
   },
   async updateStatus(context, payload) {
     try {
       await new Wynagrodzenia(payload).save();
+      context.commit('showMessage', { message: "Zaktualizowano status"});
     } catch(error) {
-      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie statusu"});
+      return false
     }
   },
 };

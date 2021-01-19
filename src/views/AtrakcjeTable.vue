@@ -1,13 +1,12 @@
 <template>
   <div class="atrakcje">
      <v-main class="elevation-0 mt-4 px-5 py-3">
-      <h1>Tu są Atrakcje</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'AtrakcjeForm' }"
+            :to="{ name: 'Atrakcje' }"
           >
             Dodaj
           </v-btn>
@@ -42,6 +41,15 @@
             mdi-delete
           </v-icon>
         </v-btn>
+        <v-btn
+            icon
+            title="Zmień status"
+            @click="statusItem(item)"
+        >
+          <v-icon>
+          mdi-sync
+          </v-icon>
+        </v-btn>
       </template>
       </TestTable>
      </v-main>
@@ -70,9 +78,10 @@ export default {
     ...mapActions([
       'fetchAtrakcjeList',
       'deleteAtrakcje',
+      'updateStatusAtrakcje'
     ]),
     editItem(item) {
-      router.push({ name: 'AtrakcjeForm', params: { id: item.id } });
+      router.push({ name: 'Atrakcje', params: { id: item.id } });
     },
     async deleteItem(item) {
       let confirmation = confirm('Czy na pewno chcesz usunąć atrakcje?')
@@ -81,7 +90,16 @@ export default {
         this.fetchAtrakcjeList()
         this.showMessage({ message: 'Usunięto pracownik' });
       }
-    }
+    },
+    async statusItem(item) {
+      if (item.status === "Zamknięta") {
+        item.status = "Otwarta"
+        await this.updateStatusAtrakcje(item)
+        return
+      }
+      item.status = "Zamknięta"
+      await this.updateStatusAtrakcje(item)
+    } 
   },
   computed: {
     ...mapGetters({

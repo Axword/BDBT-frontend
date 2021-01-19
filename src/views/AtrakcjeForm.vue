@@ -1,54 +1,129 @@
 <template>
   <div class="atrakcje">
     <v-main class="elevation-3 mt-4 px-5 py-3">
-     <h1>Atrakcje</h1>
       <v-row justify-center>
         <v-col>
+          <h2>{{ atrakcjeName }}</h2>
           <v-form v-model="form.valid">
-            <v-text-field
-              v-model="atrakcje.kod_atrakcjea"
-              name='kod'
-              label="Kod"
-              type="text"
-              :error-messages="errors.kod_atrakcjea"
-              maxlength="3"
-            >
-            </v-text-field>
             <v-text-field
               v-model="atrakcje.nazwa"
               name="nazwa"
               label="Nazwa"
               type="text"
+              :rules="[rules.required]"
               :error-messages="errors.nazwa"
-              maxlength="25"
+              maxlength="30"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.producent"
+              name="producent"
+              label="Producent"
+              type="text"
+              :rules="[rules.required]"
+              :error-messages="errors.producent"
+              maxlength="30"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.typ_atrakcji"
+              name="typ_atrakcji"
+              label="Typ atrakcji"
+              type="text"
+              :rules="[rules.required]"
+              :error-messages="errors.typ_atrakcji"
+              maxlength="30"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.opis"
+              name="opis"
+              label="Opis"
+              type="text"
+              :error-messages="errors.opis"
+              :rules="[rules.required]"
+              maxlength="400"
+            >
+            </v-text-field>
+              <v-text-field
+              v-model="atrakcje.wymagania_wiekowe"
+              name="wymagania_wiekowe"
+              label="Minimalny wiek do skorzystania"
+              type="integer"
+              :error-messages="errors.wymagania_wiekowe"
+              :rules="[rules.required]"
+              maxlength="2"
             >
             </v-text-field>
               <v-select
-              v-model="atrakcje.kod_poziomu"
-              name='kod poziomu'
-              label="Kod poziomu"
+              :rules="[rules.required]"
+              v-model="atrakcje.status"
+              name='Status'
+              label="Status"
               type="text"
-              :error-messages="errors.kod_poziomu"
-              :items="kod_poziomu"
+              :error-messages="errors.status"
+              :items="status"
             >
             </v-select>
             <v-text-field
-              v-model="atrakcje.opis"
-              name="nazwa"
-              label="Nazwa"
-              type="text"
-              :error-messages="errors.opis"
-              maxlength="25"
+              v-model="atrakcje.wysokosc"
+              hint="Niewymagane"
+              name="wysokosc"
+              label="Wysokość (w metrach)"
+              type="integer"
+              :error-messages="errors.wysokosc"
+              maxlength="5"
             >
             </v-text-field>
+            <v-text-field
+              v-model="atrakcje.predkosc"
+              hint="Niewymagane"
+              name="predkosc"
+              label="Prędkość (w km/h)"
+              type="integer"
+              :error-messages="errors.predkosc"
+              maxlength="3"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.przeciazenie"
+              hint="Niewymagane"
+              name="przeciazenie"
+              label="Przeciążenie (w przyśpieszeniu ziemskim G)"
+              type="integer"
+              :error-messages="errors.przeciazenie"
+              maxlength="4"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.przepustowosc"
+              hint="Niewymagane"
+              name="przepustowosc"
+              label="Liczba miejsc"
+              type="text"
+              :error-messages="errors.przepustowosc"
+              maxlength="4"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model="atrakcje.dlugosc_trasy"
+              hint="Niewymagane"
+              name="dlugosc_trasy"
+              label="Długość trasy (w metrach)"
+              type="text"
+              :error-messages="errors.dlugosc_trasy"
+              maxlength="4"
+            >
+            </v-text-field>
+            
             <v-autocomplete
-              label="Pracownik"
-              :item-text="item => item.imie +  '  ' + item.nazwisko"
+              label="Sektor"
+              :item-text="item => item.nazwa"
               item-value="id"
-              v-model="atrakcje.id_pracownika"
-              :items="pracownicyChoices"
+              v-model="atrakcje.id_sektora"
+              :items="sektorChoices"
               :rules="[rules.required]"
-              :error-messages="errors.id_pracownika"
+              :error-messages="errors.id_sektora"
             ></v-autocomplete>
             <v-spacer></v-spacer>
             <v-row>
@@ -87,7 +162,7 @@ export default {
   data() {
     return {
       atrakcjeHandler: {},
-      kod_poziomu: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+      status: ['Zamknięta', 'Otwarta'],
       form: {
         valid: true
       },
@@ -98,12 +173,12 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'AtrakcjeTable' });
+      router.push({ name: 'Lista atrakcji' });
     },
     async createItem(atrakcjeId) {
       let success = await this.createAtrakcje(atrakcjeId);
       if (success) {
-        router.push({ name: 'AtrakcjeTable' }).catch(() => {});
+        router.push({ name: 'Lista atrakcji' }).catch(() => {});
       }
     },
     ...mapGetters([
@@ -116,13 +191,13 @@ export default {
     ...mapActions([
       'fetchAtrakcjeDetails',
       'createAtrakcje',
-      'fetchPracownicyChoices'
+      'fetchSektorChoices'
     ]),
   },
   computed: {
     ...mapGetters({
       errors: 'getAtrakcjeErrors',
-      pracownicyChoices: 'getPracownicyChoices'
+      sektorChoices: 'getSektorChoices'
     }),
     atrakcjeId() {
       return this.$route.params.id;
@@ -130,11 +205,14 @@ export default {
     atrakcje() {
       return new Proxy(this.getAtrakcjeDetails(), this.atrakcjeHandler);
     },
+    atrakcjeName() {
+      return this.atrakcjeId ? this.getAtrakcjeDetails().nazwa : 'Nowa atrakcja';
+    },
   },
   created() {
     this.atrakcjeHandler = objectHandler(this.setAtrakcjeDetailsProp);
     this.fetchAtrakcjeDetails(this.atrakcjeId);
-    this.fetchPracownicyChoices({ ordering: 'imie' });
+    this.fetchSektorChoices({ ordering: 'nazwa' });
   }
 };
 </script>

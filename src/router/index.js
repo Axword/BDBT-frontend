@@ -22,57 +22,57 @@ const routes = [
   },
   {
     path: '/pracownicy',
-    name: 'PracownicyTable',
+    name: 'Lista pracowników',
     component: PracownicyTable
   },
   {
+    path: '/wynagrodzenia',
+    name: 'Lista wynagrodzeń',
+    component: SecretaryTable
+  },
+  {
     path: '/wynagrodzenia/:id?',
-    name: 'WynagrodzeniaForm',
+    name: 'Wynagrodzenia',
     component: WynagrodzeniaForm
   },
   {
     path: '/pracownicy/:id?',
-    name: 'PracownicyForm',
+    name: 'Pracownicy',
     component: PracownicyForm
   },
   {
     path: '/sektor',
-    name: 'SektorTable',
+    name: 'Lista sektorów',
     component: SektorTable
   },
   {
     path: '/sektor/:id?',
-    name: 'SektorForm',
+    name: 'Sektor',
     component: SektorForm
   },
   {
     path: '/atrakcje',
-    name: 'AtrakcjeTable',
+    name: 'Lista atrakcji',
     component: AtrakcjeTable
   },
   {
-    path: '/atrakcje/:id',
-    name: 'AtrakcjeForm',
+    path: '/atrakcje/:id?',
+    name: 'Atrakcje',
     component: AtrakcjeForm
   },
   {
-    path: '/sekretarka',
-    name: 'SecretaryTable',
-    component: SecretaryTable
-  },
-  {
     path: '/jezyki',
-    name: 'JezykiList',
+    name: 'Lista języków',
     component: Jezyki
   },
   {
     path: '/jezyki/:id?',
-    name: 'JezykiForm',
+    name: 'Języki',
     component: JezykiForm,
   },
   {
     path: '/stanowiska',
-    name: 'StanowiskoTable',
+    name: 'Stanowisko',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

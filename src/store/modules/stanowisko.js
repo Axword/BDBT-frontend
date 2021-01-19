@@ -120,7 +120,7 @@ const actions = {
   },
   async fetchStanowiskoChoices(context, params=null) {
     try {
-      context.commit('setStanowiskoChoices', await SelectOptions.get('stanowisko', 'pracownik', params));
+      context.commit('setStanowiskoChoices', await SelectOptions.get('pracownicy', 'stanowisko', params));
       return true
     } catch (error) {
       return false

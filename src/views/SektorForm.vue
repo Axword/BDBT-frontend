@@ -1,15 +1,16 @@
 <template>
   <div class="sektor">
     <v-main class="elevation-3 mt-4 px-5 py-3">
-     <h2>Widok sektoru</h2>
       <v-row justify-center>
         <v-col>
+          <h2>{{sektorName}}</h2>
           <v-form v-model="form.valid">
             <v-text-field
               v-model="sektor.nazwa"
               name='nazwa'
               label="Nazwa"
               type="text"
+              :rules="[rules.required]"
               :error-messages="errors.nazwa"
               maxlength="225"
             >
@@ -20,6 +21,7 @@
               name="status"
               label="Status"
               type="text"
+              :rules="[rules.required]"
               :error-messages="errors.status"
               :autocomplete="'off'"
             >
@@ -38,9 +40,10 @@
                   name='data_zalozenia'
                   label="Data założenia"
                   readonly
-                  :error-messages="errors.nazwa"
+                  :error-messages="errors.data_zalozenia"
                   :clearable="true"
                   clear-icon="mdi-delete-outline"
+                  :rules="[rules.required]"
                   v-bind="attrs"
                   v-on="on"
                 >
@@ -60,6 +63,7 @@
               label="Opis"
               type="text"
               :error-messages="errors.opis"
+              :rules="[rules.required]"
               maxlength="25"
             >
             </v-text-field>  
@@ -127,16 +131,17 @@ components: {
   },
   methods: {
     back() {
-      router.push({ name: 'SektorTable' });
+      router.push({ name: 'Lista sektorów' });
     },
     async createItem(sektorId) {
       let success = await this.createSektor(sektorId);
       if (success) {
-          router.push({ name: 'SektorTable' }).catch(() => {});
+          router.push({ name: 'Lista sektorów' }).catch(() => {});
       }
     },
     ...mapGetters([
       'getSektorDetails',
+      'getSektor'
     ]),
     ...mapMutations([
       'setSektorDetails',
@@ -149,7 +154,7 @@ components: {
   },
   computed: {
     ...mapGetters({
-      errors: 'getSektorErrors'
+      errors: 'getSektorErrors',
     }),
     sektorId() {
       return this.$route.params.id;
@@ -159,6 +164,9 @@ components: {
     },
     today() {
       return moment().format('YYYY-MM-DD');
+    },
+    sektorName() {
+      return this.sektorId ? this.getSektorDetails().nazwa : 'Nowy sektor';
     },
   },
   created() {

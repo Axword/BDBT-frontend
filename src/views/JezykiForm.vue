@@ -1,7 +1,6 @@
 <template>
   <div class="jezyk">
     <v-main class="elevation-3 mt-4 px-5 py-3">
-     <h1>Język</h1>
       <v-row justify-center>
         <v-col>
           <v-form v-model="form.valid">
@@ -34,11 +33,11 @@
             </v-select>
             <v-text-field
               v-model="jezyk.opis"
-              name="nazwa"
-              label="Nazwa"
+              name="opis"
+              label="Opis"
               type="text"
               :error-messages="errors.opis"
-              maxlength="25"
+              maxlength="250"
             >
             </v-text-field>
             <v-autocomplete
@@ -83,7 +82,7 @@ import router from '@/router';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { objectHandler } from '@/store/utils';
 export default {
-  name: 'JezykiForm',
+  name: 'Jezyki',
   data() {
     return {
       jezykHandler: {},
@@ -98,12 +97,12 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'JezykiList' });
+      router.push({ name: 'Lista języków' });
     },
     async createItem(jezykId) {
       let success = await this.createJezyk(jezykId);
       if (success) {
-        router.push({ name: 'JezykiList' }).catch(() => {});
+        router.push({ name: 'Lista języków' }).catch(() => {});
       }
     },
     ...mapGetters([
@@ -130,6 +129,9 @@ export default {
     jezyk() {
       return new Proxy(this.getJezykDetails(), this.jezykHandler);
     },
+    jezykName() {
+      return this.sektorId ? this.getJezykDetails().nazwa : 'Nowy język';
+    }
   },
   created() {
     this.jezykHandler = objectHandler(this.setJezykDetailsProp);

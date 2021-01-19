@@ -1,28 +1,78 @@
 <template>
  <div class="wynagrodzenie">
    <v-main class="elevation-3 mt-4 px-5 py-3">
-    <h1>Wynagrodzenia</h1>
       <v-row justify-center>
         <v-col>
           <v-form v-model="form.valid">
             <v-text-field
-              v-model="wynagrodzenia.kod_wynagrodzeniaa"
-              name='kod'
-              label="Kod"
+              v-model="wynagrodzenia.kwota_podstawowa"
+              name="kwota_podstawowa"
+              label="Kwota podstawowa"
               type="text"
-              :error-messages="errors.kod_wynagrodzeniaa"
-              maxlength="3"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model="wynagrodzenia.nazwa"
-              name="nazwa"
-              label="Nazwa"
-              type="text"
-              :error-messages="errors.nazwa"
+              :rules="[rules.required]"
+              :error-messages="errors.kwota_podstawowa"
               maxlength="25"
             >
             </v-text-field>
+            <v-text-field
+              v-model="wynagrodzenia.kwota_dodatkowa"
+              name="kwota_dodatkowa"
+              label="Kwota dodatkowa"
+              :rules="[rules.required]"
+              type="text"
+              :error-messages="errors.kwota_dodatkowa"
+              maxlength="25"
+            >
+            </v-text-field>
+            <v-menu
+            :clonse-on-content-click="true"
+            v-model="menu"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                  v-model="wynagrodzenia.data_wynagrodzenia"
+                  name='data_wynagrodzenia'
+                  label="Data wynagrodzenia"
+                  readonly
+                  :error-messages="errors.nazwa"
+                  :clearable="true"
+                  clear-icon="mdi-delete-outline"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                </v-text-field>
+              </template>
+              <v-date-picker
+                v-model="wynagrodzenia.data_wynagrodzenia"
+                :max="today"
+                label="Data założenia"
+                prepend-icon="mdi-calendar"
+                locale="pl">
+              </v-date-picker>
+            </v-menu>
+            <v-select
+              v-model="wynagrodzenia.status"
+              name='Status'
+              label="Status"
+              type="text"
+              :rules="[rules.required]"
+              :error-messages="errors.status"
+              :items="status"
+            >
+            </v-select>
+            <v-autocomplete
+                label="Pracownik"
+                :item-text="item => item.imie +  '  ' + item.nazwisko"
+                item-value="id"
+                v-model="wynagrodzenia.id_pracownika"
+                :items="pracownicyChoices"
+                :rules="[rules.required]"
+                :error-messages="errors.id_pracownika"
+            ></v-autocomplete>
             <v-spacer></v-spacer>
             <v-row>
               <v-col cols="12">
@@ -52,13 +102,17 @@
 </template>
 <script>
 import router from '@/router';
+import moment from 'moment';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import { objectHandler } from '@/store/utils';
 export default {
-  name: 'WynagrodzeniaForm',
+  name: 'WynagrodzeniaLista',
   data() {
     return {
+      menu: false,
+      date: new Date(),
       wynagrodzeniaHandler: {},
+      status: ['Zapłacone', 'Niezapłacone'],
       form: {
         valid: true
       },
@@ -69,12 +123,12 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'SecretaryTable' });
+      router.push({ name: 'Lista wynagrodzeń' });
     },
     async createItem(wynagrodzeniaId) {
       let success = await this.createWynagrodzenia(wynagrodzeniaId);
       if (success) {
-          router.push({ name: 'WynagrodzeniaList' }).catch(() => {});
+          router.push({ name: 'Lista wynagrodzeń' }).catch(() => {});
       }
     },
     ...mapGetters([
@@ -87,11 +141,13 @@ export default {
     ...mapActions([
       'fetchWynagrodzeniaDetails',
       'createWynagrodzenia',
+      'fetchPracownicyChoices'
     ]),
   },
   computed: {
     ...mapGetters({
-      errors: 'getWynagrodzeniaErrors'
+      errors: 'getWynagrodzeniaErrors',
+      pracownicyChoices: 'getPracownicyChoices'
     }),
     wynagrodzeniaId() {
       return this.$route.params.id;
@@ -99,10 +155,14 @@ export default {
     wynagrodzenia() {
       return new Proxy(this.getWynagrodzeniaDetails(), this.wynagrodzeniaHandler);
     },
+    today() {
+      return moment().format('YYYY-MM-DD');
+    },
   },
   created() {
     this.wynagrodzeniaHandler = objectHandler(this.setWynagrodzeniaDetailsProp);
     this.fetchWynagrodzeniaDetails(this.wynagrodzeniaId);
+    this.fetchPracownicyChoices({ ordering: 'imie' });
   }
 };
 </script>

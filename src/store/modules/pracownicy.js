@@ -10,6 +10,7 @@ const state = {
   pracownicyNameMap: {},
   pracownicyDetails: {},
   errors: {},
+  selectedPracownicy: {},
   pracownicyListHeaders: [
     {
       text: 'Imie',
@@ -30,10 +31,6 @@ const state = {
       {
         text: 'Data urodzenia',
         value: 'data_urodzenia'
-      },
-      {
-        text: 'Data zwolnienia',
-        value: 'data_zwolnienia'
       },
       {
         text: 'Data zatrudnienia',
@@ -70,6 +67,9 @@ const getters = {
   getPracownicyChoices(state) {
     return state.pracownicyChoices;
   },
+  getSelectedPracownicy(state) {
+    return state.selectedPracownicy;
+  },
 };
 
 const mutations = {
@@ -94,6 +94,9 @@ const mutations = {
     state.pracownicyChoices = [... payload];
     state.pracownicyNamesMap = { ...payload.reduce((acc, val) => (acc[val.id] = val.name, acc), {}) };
   },
+  setSelectedPracownik(state, value) {
+    state.selectedPracownik = { ...value };
+  },
 };
 
 const actions = {
@@ -111,8 +114,9 @@ const actions = {
         context.commit('setPracownicyDetails', {});
         return;
       }
-      context.commit('setPracownicyDetails', await Pracownicy.get(id));
-      return true;
+      let pracownik = await Pracownicy.get(id)
+      context.commit('setPracownicyDetails', pracownik);
+      return pracownik;
     } catch (error) {
       return false;
     }
@@ -146,6 +150,14 @@ const actions = {
       return false
     }
   },
+  async updateStatusPracownicy(context, payload) {
+    try {
+      await new Pracownicy(payload).save();
+      context.commit('showMessage', { message: "Pracownik został zwolniony. Data zwolnienia została ustawiona na dzisiejszą"});
+    } catch(error) {
+      return false
+    }
+  }
 };
 
 

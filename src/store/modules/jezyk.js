@@ -1,10 +1,12 @@
 import Jezyki from "../../service/jezyk";
+import SelectOptions from '@/service/selectOptions';
 
 
 
 const state = {
   totalItems: 0,
   jezykList: [],
+  jezykChoices: [],
   jezykDetails: {},
   errors: {},
   jezykListHeaders: [
@@ -29,7 +31,6 @@ const state = {
 
 const getters = {
   getJezyk(state) {
-
     return state.jezykList;
   },
   getJezykDetails(state) {
@@ -46,7 +47,10 @@ const getters = {
   },
   getJezykItemsPerPage(state) {
     return state.itemsPerPage;
-  }
+  },
+  getJezykChoices(state) {
+    return state.stanowiskoChoices;
+  },
 };
 
 const mutations = {
@@ -66,6 +70,10 @@ const mutations = {
   setJezykDetailsProp(state, { prop, value }) {
     state.jezykDetails = { ...state.jezykDetails, [prop]: value };
     state.errors = { ...state.errors, [prop]: null };
+  },
+  setJezykChoices(state, payload) {
+    state.jezykChoices = [... payload];
+    state.jezykNamesMap = { ...payload.reduce((acc, val) => (acc[val.id] = val.name, acc), {}) };
   },
 };
 
@@ -109,6 +117,14 @@ const actions = {
       return true;
     } catch (error) {
       return false;
+    }
+  },
+  async fetchJezykChoices(context, params=null) {
+    try {
+      context.commit('setJezykChoices', await SelectOptions.get('jezyk', 'pracownik', params));
+      return true
+    } catch (error) {
+      return false
     }
   },
 };

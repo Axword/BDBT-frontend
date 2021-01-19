@@ -1,14 +1,12 @@
 <template>
   <div class="sektor">
-
      <v-main class="elevation-0 mt-4 px-5 py-3">
-      <h1>Tu są sektory</h1>
       <v-row justify-content='right'>
         <v-col cols="12">
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'SektorForm' }"
+            :to="{ name: 'Sektor' }"
           >
             Dodaj
           </v-btn>
@@ -43,6 +41,15 @@
             mdi-delete
           </v-icon>
         </v-btn>
+        <v-btn
+            icon
+            title="Zmień status"
+            @click="statusItem(item)"
+        >
+          <v-icon>
+          mdi-sync
+          </v-icon>
+        </v-btn>
       </template>
       </TestTable>
      </v-main>
@@ -70,17 +77,27 @@ export default {
     ...mapActions([
       'fetchSektorList',
       'deleteSektor',
+      'updateStatusSektor'
     ]),
     editItem(item) {
-      router.push({ name: 'SektorForm', params: { id: item.id } });
+      router.push({ name: 'Sektor', params: { id: item.id } });
     },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć sektor?')
+      let confirmation = confirm('Czy na pewno chcesz usunąć sektor?');
       if (confirmation) {
         await this.deleteSektor(item);
-        this.fetchSektorList()
+        this.fetchSektorList();
         this.showMessage({ message: 'Usunięto sektor' });
       }
+    },
+    async statusItem(item) {
+      if (item.status === "Zamknięty") {
+        item.status = "Otwarty";
+        await this.updateStatusSektor(item);
+        return
+      }
+      item.status = "Zamknięty";
+      await this.updateStatusSektor(item);
     }
   },
   computed: {

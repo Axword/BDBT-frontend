@@ -1,7 +1,6 @@
 <template>
   <div class="stanowisko">
     <v-main class="elevation-3 mt-4 px-5 py-3">
-     <h1>Stanowiska</h1>
       <v-row justify-center>
         <v-col>
           <v-form v-model="form.valid">

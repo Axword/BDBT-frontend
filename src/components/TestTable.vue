@@ -19,7 +19,6 @@
       <template v-slot:item="{ item }">
         <tr
           :dense="dense"
-          @click="toggleExpand(item)"
         >
           <td
             v-for="(header, index) in headers"

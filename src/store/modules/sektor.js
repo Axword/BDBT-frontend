@@ -1,10 +1,12 @@
 import Sektor from "../../service/sektor";
+import SelectOptions from '@/service/selectOptions';
 
 
 
 const state = {
   totalItems: 0,
   sektorList: [],
+  sektorChoices: [],
   sektorDetails: {},
   errors: {},
   sektorListHeaders: [
@@ -31,7 +33,6 @@ const state = {
 
 const getters = {
   getSektor(state) {
-
     return state.sektorList;
   },
   getSektorDetails(state) {
@@ -48,7 +49,10 @@ const getters = {
   },
   getSektorItemsPerPage(state) {
     return state.itemsPerPage;
-  }
+  },
+  getSektorChoices(state) {
+    return state.sektorChoices;
+  },
 };
 
 const mutations = {
@@ -68,6 +72,10 @@ const mutations = {
   setSektorDetailsProp(state, { prop, value }) {
     state.sektorDetails = { ...state.sektorDetails, [prop]: value };
     state.errors = { ...state.errors, [prop]: null };
+  },
+  setSektorChoices(state, payload) {
+    state.sektorChoices = [... payload];
+    state.sektorNamesMap = { ...payload.reduce((acc, val) => (acc[val.id] = val.name, acc), {}) };
   },
 };
 
@@ -110,6 +118,22 @@ const actions = {
       return true;
     } catch (error) {
       return false;
+    }
+  },
+  async fetchSektorChoices(context, params=null) {
+    try {
+      context.commit('setSektorChoices', await SelectOptions.get('parki', 'sektor', params));
+      return true
+    } catch (error) {
+      return false
+    }
+  },
+  async updateStatusSektor(context, payload) {
+    try {
+      await new Sektor(payload).save();
+      context.commit('showMessage', { message: "Zaktualizowano status"});
+    } catch(error) {
+      return false
     }
   },
 };
