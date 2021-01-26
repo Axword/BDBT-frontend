@@ -6,9 +6,11 @@
       :color="snackbarColor">{{ snackbarMessage }}
     </v-snackbar>
       <v-main>
-          <Navbar />
+          <Navbar 
+          v-if="isAuth()"/>
           <toolbar
           :name="currentRouteName"
+          v-if="isAuth()"
         ></toolbar>
         <router-view class='mx-8 mb-8'></router-view>
     </v-main>
@@ -22,7 +24,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { mapGetters, mapMutations } from 'vuex';
 import Toolbar from '@/components/Toolbar';
-
+import State from '@/service/state';
 export default {
   name: 'App',
   components: {
@@ -58,7 +60,10 @@ export default {
   methods: {
     ...mapMutations([
       'hideMessage'
-    ])
+    ]),
+    isAuth() {
+      return State.isAuth();
+    },
   }
 };
 </script>

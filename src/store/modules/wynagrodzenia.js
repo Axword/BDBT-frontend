@@ -81,7 +81,6 @@ const actions = {
       context.commit('setWynagrodzenia', await Wynagrodzenia.list(params));
       return true;
     } catch (error) {
-      context.commit('showMessage', { message: "Wystąpił błąd przy zmianie odświeżaniu", color: 'error'});
       return false;
     }
   },

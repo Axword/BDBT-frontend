@@ -83,7 +83,7 @@ export default {
       router.push({ name: 'Sektor', params: { id: item.id } });
     },
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć sektor?');
+      let confirmation = confirm('Czy na pewno chcesz usunąć sektor? UWAGA! Usunię to powiązane z nim atrakcje');
       if (confirmation) {
         await this.deleteSektor(item);
         this.fetchSektorList();

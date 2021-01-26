@@ -19,7 +19,9 @@
                 <span class="font-weight-light white--text">Park Rozrywki</span>
             </v-app-bar-title>
             <v-spacer></v-spacer>
-            <v-btn color="pink">
+            <v-btn 
+            color="pink"
+            @click="logout()"        >
                 <span>Wyloguj się</span>
                 <v-icon right>mdi-exit-to-app</v-icon>
             </v-btn>
@@ -51,20 +53,38 @@
     </nav>
 </template>
 <script>
+import {vm} from '../main.js'
+import Auth from '../service/auth'
+import { mapMutations} from 'vuex';
 export default {
     data() {
         return {
             drawer: false,
             links: [
-                { icon: 'mdi-card-account-details', text: 'Stanowiska', route: '/stanowiska' },
-                { icon: 'mdi-globe-model', text: 'Języki', route: '/jezyki' },
-                { icon: 'mdi-view-dashboard', text: 'Sektory', route: '/sektor' },
-                { icon: 'mdi-account-multiple', text: 'Pracownicy', route: '/pracownicy' },
-                { icon: 'mdi-account-cash', text: 'Wynagrodzenia', route: '/wynagrodzenia' },
-                { icon: 'mdi-ferris-wheel', text: 'Atrakcje', route: '/atrakcje' },
+                { icon: 'mdi-card-account-details', text: 'Stanowiska', route: '/stanowiska', requiredPerm: 'pracownicy.view_stanowisko' },
+                { icon: 'mdi-globe-model', text: 'Języki', route: '/jezyki', requiredPerm: 'jezyki.view_jezyk', },
+                { icon: 'mdi-view-dashboard', text: 'Sektory', route: '/sektor', requiredPerm: 'parki.view_sektor', },
+                { icon: 'mdi-account-multiple', text: 'Pracownicy', route: '/pracownicy', requiredPerm: 'pracownicy.view_pracownik',},
+                { icon: 'mdi-account-cash', text: 'Wynagrodzenia', route: '/wynagrodzenia', requiredPerm: 'pracownicy.view_wynagrodzenie', },
+                { icon: 'mdi-ferris-wheel', text: 'Atrakcje', route: '/atrakcje', requiredPerm: 'atrakcje.view_atrakcja', },
                 // do dodania na każdy widok co będziemy robić 
             ]
         }
+    },
+    methods: {
+    async logout() {
+        vm.$forceUpdate();
+        await Auth.logout()
+        this.showMessage({ message: 'Zostałeś wylogowany!.' });
+    },
+    async filterAuthenticated(){
+        for(let i=0; i < this.links.length; i++) {
+            this.links[0].requiredPerm = 1
+        }
+    },
+    ...mapMutations([
+      'showMessage'
+    ]),
     }
 }
 </script>

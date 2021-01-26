@@ -1,6 +1,6 @@
-import Http from './http';
+import Auth from './httpAuth';
 
-class Rest extends Http {
+class Rest extends Auth {
   constructor() {
     super();
   }

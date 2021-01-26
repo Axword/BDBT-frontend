@@ -161,7 +161,6 @@
               item-value="id"
               v-model="pracownicy.id_stanowiska"
               :items="stanowiskoChoices"
-              :rules="[rules.required]"
               :error-messages="errors.id_stanowiska"
             ></v-autocomplete>
             <v-spacer></v-spacer>

@@ -69,12 +69,12 @@ export default {
   },
   methods: {
     back() {
-      router.push({ name: 'StanowiskoTable' });
+      router.push({ name: 'Lista Stanowisk' });
     },
     async createItem(stanowiskoId) {
       let success = await this.createStanowisko(stanowiskoId);
       if (success) {
-        router.push({ name: 'StanowiskoTable' }).catch(() => {});
+        router.push({ name: 'Lista Stanowisk' }).catch(() => {});
       }
     },
     ...mapGetters([

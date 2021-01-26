@@ -7,7 +7,7 @@ import atrakcje  from './modules/atrakcje'
 import pracownicy from './modules/pracownicy'
 import wynagrodzenia from './modules/wynagrodzenia'
 import stanowisko from './modules/stanowisko'
-
+import permission from './modules/permission';
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -18,6 +18,7 @@ export default new Vuex.Store({
     atrakcje,
     pracownicy,
     wynagrodzenia,
-    stanowisko
+    stanowisko,
+    permission
   }
 })

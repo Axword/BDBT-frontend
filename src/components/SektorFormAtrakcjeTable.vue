@@ -61,12 +61,12 @@ export default {
       'deleteAtrakcje',
     ]),
     editItem(item) {
-      router.push({ name: 'AtrakcjeForm', params: { id: item.id } });
+      router.push({ name: 'Lista Atrakcji', params: { id: item.id } });
     },
     async deleteItem(role) {
-      confirm('Czy na pewno chcesz usunąć język?') && await this.deleteAtrakcje(role);
+      confirm('Czy na pewno chcesz usunąć atrakcje?') && await this.deleteAtrakcje(role);
       this.fetchAtrakcjeList()
-      this.showMessage({ message: 'Usunięto język' });
+      this.showMessage({ message: 'Usunięto atrakcje' });
 
     }
   },

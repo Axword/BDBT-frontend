@@ -62,9 +62,9 @@ export default {
       router.push({ name: 'WynagrodzeniaForm', params: { id: item.id } });
     },
     async deleteItem(role) {
-      confirm('Czy na pewno chcesz usunąć język?') && await this.deleteWynagrodzenia(role);
+      confirm('Czy na pewno chcesz usunąć wynagrodzenie?') && await this.deleteWynagrodzenia(role);
       this.fetchWynagrodzeniaList()
-      this.showMessage({ message: 'Usunięto język' });
+      this.showMessage({ message: 'Usunięto wynagrodzenie' });
 
     }
   },

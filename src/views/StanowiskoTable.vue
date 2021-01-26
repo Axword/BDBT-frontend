@@ -6,7 +6,7 @@
           <v-btn
             class="mr-2 my-4"
             color="primary"
-            :to="{ name: 'StanowiskoForm' }"
+            :to="{ name: 'Stanowisko' }"
           >
             Dodaj
           </v-btn>
