@@ -23,11 +23,12 @@ export default {
     ]),
     ...mapActions([
       'updatePermissions',
+      'updateLinks'
     ]),
   },
   async created() {
     const permissions = await this.updatePermissions();
-    console.log(permissions)
+    this.updateLinks(permissions)
     State.setPermissions(permissions);
   }
 };

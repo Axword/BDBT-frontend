@@ -88,7 +88,7 @@ export default {
       if (confirmation) {
         await this.deleteAtrakcje(item);
         this.fetchAtrakcjeList()
-        this.showMessage({ message: 'Usunięto pracownik' });
+        this.showMessage({ message: 'Usunięto atrakcje' });
       }
     },
     async statusItem(item) {

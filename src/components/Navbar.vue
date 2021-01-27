@@ -38,7 +38,7 @@
                 </v-col>
             </v-row>
             <v-list>
-             <v-list-item v-for="link in links" :key="link.text" :to="link.route">
+             <v-list-item v-for="link in getLinksPermissions" :key="link.text" :to="link.route">
               <v-list-item-action>
                 <v-icon class="white--text">{{ link.icon}}</v-icon>
               </v-list-item-action>    
@@ -55,7 +55,7 @@
 <script>
 import {vm} from '../main.js'
 import Auth from '../service/auth'
-import { mapMutations} from 'vuex';
+import { mapActions, mapGetters, mapMutations} from 'vuex';
 export default {
     data() {
         return {
@@ -85,6 +85,19 @@ export default {
     ...mapMutations([
       'showMessage'
     ]),
+    ...mapActions([
+        'updateLinks',
+        'updatePermissions'
+    ])
+    },
+    computed: {
+    ...mapGetters([
+      'getLinksPermissions'
+    ])
+    },
+    async created(){
+        const links = await this.updatePermissions()
+        await this.updateLinks(links)
     }
 }
 </script>

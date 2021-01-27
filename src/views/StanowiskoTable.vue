@@ -61,7 +61,7 @@ export default {
       'deleteStanowisko',
     ]),
     async deleteItem(item) {
-      let confirmation = confirm('Czy na pewno chcesz usunąć stanowisko?')
+      let confirmation = confirm('Czy na pewno chcesz usunąć stanowisko? Wszystkie przypisania z Pracownikami zostaną utracone')
       if (confirmation) {
         await this.deleteStanowisko(item);
         this.fetchStanowiskoList()
