@@ -1,11 +1,25 @@
 <template>
-   <v-main class="elevation-0 mt-4 px-5 py-3">
-      <v-row justify-center>
-        <v-col>
-          <h2>Strona główna</h2>
-        </v-col>
-      </v-row>
-    </v-main> 
+  <v-row justify="center">
+    <v-img
+      src="amusement_park.png"
+      max-width="1500"
+      max-height="1000"
+
+    >
+      <template v-slot:placeholder>
+        <v-row
+          class="fill-height ma-0"
+          align="center"
+          justify="center"
+        >
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
+  </v-row>
 </template>
 
 <script>
