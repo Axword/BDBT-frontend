@@ -10,7 +10,7 @@
           v-if="isAuth()"/>
           <toolbar
           :name="currentRouteName"
-          v-if="isAuth()"
+          v-if="isAuth() || isMainPage()"
         ></toolbar>
         <router-view class='mx-8 mb-8'></router-view>
     </v-main>
@@ -64,6 +64,11 @@ export default {
     isAuth() {
       return State.isAuth();
     },
+    isMainPage() {
+      console.log(this.currentRouteName)
+      return this.currentRouteName === "Strona Główna"
+    
+    }
   }
 };
 </script>
